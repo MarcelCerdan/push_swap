@@ -1,38 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mthibaul <mthibaul@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 12:52:00 by mthibaul          #+#    #+#             */
-/*   Updated: 2023/01/17 12:52:00 by mthibaul         ###   ########lyon.fr   */
+/*   Created: 2022/11/09 15:08:04 by mthibaul          #+#    #+#             */
+/*   Updated: 2022/11/25 17:00:08 by mthibaul         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
 #include "libft.h"
 
-int	main(int ac, char **av)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int i;
-	int *args;
-	t_stack **a_stack;
-	t_stack **b_stack;
+	char	*joined_str;
+	size_t	len;
+	int		i;
 
-	args = malloc (sizeof (int) * (ac - 1));
-	check_args (ac, av, args);
-	a_stack = NULL;
-	b_stack = NULL;
-	i = -1;
-	while (++i < ac - 1)
-		a_stack = create_elem (args[i], a_stack);
-	rev_rotate(*a_stack);
-	t_stack *tmp = *a_stack;
-	while (tmp)
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	len = ft_strlen(s1) + ft_strlen(s2);
+	joined_str = malloc((len + 1) * sizeof(char));
+	if (joined_str == NULL)
+		return (free(joined_str), NULL);
+	i = 0;
+	while (s1[i])
 	{
-		ft_printf("B_stack : %d\n", tmp->nb);
-		tmp = tmp->next;
+		joined_str[i] = s1[i];
+		i++;
 	}
+	joined_str[i] = 0;
+	ft_strlcat(joined_str, s2, len + 1);
+	return (joined_str);
 }
-

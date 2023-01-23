@@ -1,38 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mthibaul <mthibaul@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 12:52:00 by mthibaul          #+#    #+#             */
-/*   Updated: 2023/01/17 12:52:00 by mthibaul         ###   ########lyon.fr   */
+/*   Created: 2022/11/11 14:14:52 by mthibaul          #+#    #+#             */
+/*   Updated: 2022/11/15 15:32:50 by mthibaul         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
 #include "libft.h"
 
-int	main(int ac, char **av)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	int i;
-	int *args;
-	t_stack **a_stack;
-	t_stack **b_stack;
+	t_list	*first_elem;
+	t_list	*elem;
 
-	args = malloc (sizeof (int) * (ac - 1));
-	check_args (ac, av, args);
-	a_stack = NULL;
-	b_stack = NULL;
-	i = -1;
-	while (++i < ac - 1)
-		a_stack = create_elem (args[i], a_stack);
-	rev_rotate(*a_stack);
-	t_stack *tmp = *a_stack;
-	while (tmp)
+	if (f == NULL || del == NULL)
+		return (NULL);
+	first_elem = NULL;
+	while (lst)
 	{
-		ft_printf("B_stack : %d\n", tmp->nb);
-		tmp = tmp->next;
+		elem = ft_lstnew(f(lst->content));
+		if (elem == NULL)
+		{
+			ft_lstclear(&first_elem, del);
+			return (NULL);
+		}
+		ft_lstadd_back(&first_elem, elem);
+		lst = lst->next;
 	}
+	return (first_elem);
 }
-

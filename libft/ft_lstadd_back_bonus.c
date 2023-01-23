@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mthibaul <mthibaul@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 12:52:00 by mthibaul          #+#    #+#             */
-/*   Updated: 2023/01/17 12:52:00 by mthibaul         ###   ########lyon.fr   */
+/*   Created: 2022/11/11 13:43:13 by mthibaul          #+#    #+#             */
+/*   Updated: 2022/11/18 12:49:20 by mthibaul         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
 #include "libft.h"
 
-int	main(int ac, char **av)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	int i;
-	int *args;
-	t_stack **a_stack;
-	t_stack **b_stack;
+	t_list	*elem;
 
-	args = malloc (sizeof (int) * (ac - 1));
-	check_args (ac, av, args);
-	a_stack = NULL;
-	b_stack = NULL;
-	i = -1;
-	while (++i < ac - 1)
-		a_stack = create_elem (args[i], a_stack);
-	rev_rotate(*a_stack);
-	t_stack *tmp = *a_stack;
-	while (tmp)
+	if (lst && *lst)
 	{
-		ft_printf("B_stack : %d\n", tmp->nb);
-		tmp = tmp->next;
+		elem = *lst;
+		while (elem->next)
+			elem = elem->next;
+		elem->next = new;
 	}
+	else if (lst)
+		*lst = new;
 }
-

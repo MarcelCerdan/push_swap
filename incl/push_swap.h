@@ -21,9 +21,15 @@ typedef struct s_stack
 	struct s_stack	*next;
 }	t_stack;
 
-int		*check_args(int ac, char **av);
-void	error(void);
-t_stack	*create_stack_elem(int nmb);
-void	push_front(t_stack **stack, t_stack *elem);
+int		stack_size(t_stack *stack);
+void	del_elem(t_stack **stack);
+void	*check_args(int ac, char **av, int *args);
+void	error(void *elem);
+void	swap(t_stack *stack);
+void	rotate(t_stack *stack);
+void	rev_rotate(t_stack *stack);
+t_stack	**push(t_stack **a, t_stack **b);
+t_stack	**create_elem(int nmb, t_stack **stack);
+t_stack	**push_front(t_stack **stack, t_stack *elem);
 
 #endif

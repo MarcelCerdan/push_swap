@@ -1,38 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mthibaul <mthibaul@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 12:52:00 by mthibaul          #+#    #+#             */
-/*   Updated: 2023/01/17 12:52:00 by mthibaul         ###   ########lyon.fr   */
+/*   Created: 2022/11/10 08:29:15 by mthibaul          #+#    #+#             */
+/*   Updated: 2022/11/11 18:11:53 by mthibaul         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
 #include "libft.h"
 
-int	main(int ac, char **av)
+void	ft_putnbr_fd(int n, int fd)
 {
-	int i;
-	int *args;
-	t_stack **a_stack;
-	t_stack **b_stack;
-
-	args = malloc (sizeof (int) * (ac - 1));
-	check_args (ac, av, args);
-	a_stack = NULL;
-	b_stack = NULL;
-	i = -1;
-	while (++i < ac - 1)
-		a_stack = create_elem (args[i], a_stack);
-	rev_rotate(*a_stack);
-	t_stack *tmp = *a_stack;
-	while (tmp)
+	if (n == -2147483648)
+		ft_putstr_fd("-2147483648", fd);
+	else if (n < 0)
 	{
-		ft_printf("B_stack : %d\n", tmp->nb);
-		tmp = tmp->next;
+		ft_putchar_fd('-', fd);
+		ft_putnbr_fd(-n, fd);
+	}
+	else if (n > 9)
+	{
+		ft_putnbr_fd(n / 10, fd);
+		ft_putnbr_fd(n % 10, fd);
+	}
+	else
+	{
+		ft_putchar_fd(n % 10 + '0', fd);
 	}
 }
-

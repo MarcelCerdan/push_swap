@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mthibaul <mthibaul@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 12:52:00 by mthibaul          #+#    #+#             */
-/*   Updated: 2023/01/17 12:52:00 by mthibaul         ###   ########lyon.fr   */
+/*   Created: 2022/11/08 17:18:58 by mthibaul          #+#    #+#             */
+/*   Updated: 2022/11/11 17:27:16 by mthibaul         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
 #include "libft.h"
 
-int	main(int ac, char **av)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	int i;
-	int *args;
-	t_stack **a_stack;
-	t_stack **b_stack;
+	size_t	i;
 
-	args = malloc (sizeof (int) * (ac - 1));
-	check_args (ac, av, args);
-	a_stack = NULL;
-	b_stack = NULL;
-	i = -1;
-	while (++i < ac - 1)
-		a_stack = create_elem (args[i], a_stack);
-	rev_rotate(*a_stack);
-	t_stack *tmp = *a_stack;
-	while (tmp)
+	i = 0;
+	while (i < n && (s1[i] || s2[i]))
 	{
-		ft_printf("B_stack : %d\n", tmp->nb);
-		tmp = tmp->next;
+		if (s1[i] != s2[i])
+			return ((unsigned char) s1[i] - (unsigned char) s2[i]);
+		i++;
 	}
+	return (0);
 }
-

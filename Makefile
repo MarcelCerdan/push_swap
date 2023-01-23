@@ -20,8 +20,8 @@ DIR_LIBFT	=	libft
 
 HEAD_LST	=	push_swap.h libft.h
 
-SRCS_LST 	= 	push_swap.c		errors.c \
-				stacks.c
+SRCS_LST 	= 	push_swap.c		errors.c 		\
+				stacks.c		instructions.c
 
 OBJS_LST	=	${SRCS_LST:%.c=%.o}
 
@@ -71,7 +71,7 @@ clean			:
 fclean_libft	:
 					make fclean -C ${DIR_LIBFT}
 
-fclean			:
+fclean			:	fclean_libft clean
 					${RM} ${NAME}
 
 re				:	fclean

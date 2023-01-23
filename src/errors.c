@@ -13,36 +13,37 @@
 #include "push_swap.h"
 #include "libft.h"
 
-void	error(void)
+void	error(void *elem)
 {
+	if (elem != NULL)
+		free(elem);
 	write(2, "Error\n", 6);
 	exit(1);
 }
 
-int	*check_args(int ac, char **av)
+void	*check_args(int ac, char **av, int *args)
 {
-	int	*args;
 	int	i;
 	int	j;
 
 	i = 0;
-	args = malloc(sizeof(int) * (ac - 1));
-	if (args == NULL)
-		return (NULL);
-	while (++i < ac)
+	if (args == NULL || ac <= 2)
+		error(args);
+	while (++i <= (ac - 1))
 	{
-		args[i - 1] = ft_atoi(av[i]);
-		if (ft_strncmp(ft_itoa(args[i - 1]), av[i], ft_strlen(av[i])) != 0)
-			return (free(args), NULL);
+		args[ac - 1 - i] = ft_atoi(av[i]);
+		if (ft_strncmp(ft_itoa(args[ac - 1 - i]), av[i], ft_strlen(av[i])) != 0)
+			error(args);
 	}
-	j = 0;
+	args[ac - 1] = 0;
+	j = -1;
 	while (++j < ac - 1)
 	{
 		i = j;
 		while (++i <= ac - 1)
 		{
 			if (args[i] == args[j])
-				return (free(args), NULL);
+				error(args);
 		}
 	}
 	return (args);

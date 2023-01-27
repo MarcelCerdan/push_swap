@@ -11,6 +11,24 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "libft.h"
+
+int	chose_inst(t_stack **a, t_stack **b, int inst)
+{
+	if (inst == RA)
+		return (rotate(*a), ft_printf("ra\n"));
+	else if (inst == RB)
+		return (rotate(*b), ft_printf("rb\n"));
+	else if (inst == RR)
+		return (rotate(*a), rotate(*b), ft_printf("rr\n"));
+	else if (inst == RRA)
+		return (rev_rotate(*a), ft_printf("rra\n"));
+	else if (inst == RRB)
+		return (rev_rotate(*b), ft_printf("rrb\n"));
+	else if (inst == RRR)
+		return (rev_rotate(*a), rev_rotate(*b), ft_printf("rrr\n"));
+	return (-1);
+}
 
 void	swap(t_stack *stack)
 {
@@ -51,10 +69,10 @@ void	rev_rotate(t_stack *stack)
 {
 	t_stack	*tmp;
 	int		*nb;
-	int 	i;
+	int		i;
 
 	nb = malloc(sizeof(int) * stack_size(stack));
-	if (nb == NULL)
+	if (!nb)
 		error(NULL);
 	i = -1;
 	tmp = stack;
@@ -63,6 +81,7 @@ void	rev_rotate(t_stack *stack)
 		nb[++i] = tmp->nb;
 		tmp = tmp->next;
 	}
+	free(tmp);
 	stack->nb = nb[i];
 	stack = stack->next;
 	i = -1;

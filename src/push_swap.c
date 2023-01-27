@@ -15,10 +15,10 @@
 
 int	main(int ac, char **av)
 {
-	int i;
-	int *args;
-	t_stack **a_stack;
-	t_stack **b_stack;
+	int		i;
+	int		*args;
+	t_stack	**a_stack;
+	t_stack	**b_stack;
 
 	args = malloc (sizeof (int) * (ac - 1));
 	check_args (ac, av, args);
@@ -27,11 +27,20 @@ int	main(int ac, char **av)
 	i = -1;
 	while (++i < ac - 1)
 		a_stack = create_elem (args[i], a_stack);
-	rev_rotate(*a_stack);
 	t_stack *tmp = *a_stack;
+	if (is_sort(*a_stack))
+		return (0);
+	sort(a_stack);
+	t_stack *tmp1 = *b_stack;
+	while (tmp1)
+	{
+		ft_printf("B_stack : %d\n", tmp1->nb);
+		tmp1 = tmp1->next;
+	}
+	ft_printf("\n");
 	while (tmp)
 	{
-		ft_printf("B_stack : %d\n", tmp->nb);
+		ft_printf("A_stack : %d\n", tmp->nb);
 		tmp = tmp->next;
 	}
 }

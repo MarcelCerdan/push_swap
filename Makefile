@@ -21,7 +21,10 @@ DIR_LIBFT	=	libft
 HEAD_LST	=	push_swap.h libft.h
 
 SRCS_LST 	= 	push_swap.c		errors.c 		\
-				stacks.c		instructions.c
+				stacks.c		instructions.c	\
+				sort.c			find_limits.c	\
+				moves.c			best_stroke.c
+
 
 OBJS_LST	=	${SRCS_LST:%.c=%.o}
 

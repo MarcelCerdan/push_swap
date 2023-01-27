@@ -11,6 +11,37 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "libft.h"
+
+t_stack	**init_stacks(t_stack **a, t_stack **b)
+{
+	int		third;
+	int		flag;
+
+	flag = 0;
+	third = find_third(*a);
+	while (check_stack(*a, third) == 0)
+	{
+		if ((*a)->nb <= third)
+		{
+			b = push(a, b);
+			ft_printf("pb\n");
+			if (flag == 1 && (*a)->next->nb > 2 * third)
+				chose_inst(a, b, RR);
+			else if (flag == 1)
+				chose_inst(a, b, RB);
+		}
+		else if ((*a)->nb <= 2 * third)
+		{
+			flag = 1;
+			b = push(a, b);
+			ft_printf("pb\n");
+		}
+		else
+			chose_inst(a, b, RA);
+	}
+	return (b);
+}
 
 void	del_elem(t_stack **stack)
 {

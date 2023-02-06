@@ -24,8 +24,7 @@ t_stack	**init_stacks(t_stack **a, t_stack **b)
 	{
 		if ((*a)->nb <= third)
 		{
-			b = push(a, b);
-			ft_printf("pb\n");
+			b = push(a, b, "pb");
 			if (flag == 1 && (*a)->next->nb > 2 * third)
 				chose_inst(a, b, RR);
 			else if (flag == 1)
@@ -34,8 +33,7 @@ t_stack	**init_stacks(t_stack **a, t_stack **b)
 		else if ((*a)->nb <= 2 * third)
 		{
 			flag = 1;
-			b = push(a, b);
-			ft_printf("pb\n");
+			b = push(a, b, "pb");
 		}
 		else
 			chose_inst(a, b, RA);

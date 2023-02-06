@@ -49,8 +49,8 @@ t_moves	*find_best(t_stack *a, t_stack *b, int nb, int index)
 	t_moves		*inf_moves;
 	t_moves		*sup_moves;
 
-	inf.index = find_inf (a, nb, index);
-	sup.index = find_sup (a, nb, index);
+	inf.index = find_inf(a, nb, index);
+	sup.index = find_sup(a, nb, index);
 	inf_moves = inst_nb(&inf, a, b, INF);
 	sup_moves = inst_nb(&sup, a, b, SUP);
 	if (inf_moves->total <= sup_moves->total)
@@ -58,24 +58,20 @@ t_moves	*find_best(t_stack *a, t_stack *b, int nb, int index)
 	return (sup_moves);
 }
 
-t_moves	*best_stroke(t_stack *a, t_stack *b)
+void	best_stroke(t_stack *a, t_stack *b, t_moves *moves)
 {
-	t_moves	*min;
 	t_moves	*current;
 	int		index;
 
 	index = 0;
-	min = find_best (a, b, b->nb, index);
+	moves = find_best (a, b, b->nb, index);
 	while (b->next)
 	{
-		if (current)
-			free(current);
 		b = b->next;
 		index++;
-		current = find_best (a, b, b->nb, index);
-		if (current->total < min->total)
-			min = current;
+		current = find_best(a, b, b->nb, index);
+		if (current->total < moves->total)
+			moves = current;
 	}
 	free(current);
-	return (min);
 }

@@ -31,14 +31,12 @@ int	sort(t_stack **a)
 
 	b = NULL;
 	b = init_stacks(a, b);
+	moves = malloc(sizeof(t_moves));
 	while ((*a)->next)
+		b = push(a, b, "pb");
+	while (*b)
 	{
-		push(a, b);
-		ft_printf("pb\n");
-	}
-	while (!is_sort(*a) && *b)
-	{
-		moves = best_stroke(*a, *b);
+		best_stroke(*a, *b, moves);
 		move(a, b, moves);
 		free(moves);
 	}

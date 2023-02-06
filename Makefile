@@ -37,7 +37,7 @@ OBJS 		= 	$(addprefix $(DIR_OBJS), $(OBJS_LST))
 # ---- Compilation ---- #
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror -g3
 
 # ---- Commands ---- #
 
@@ -54,7 +54,7 @@ libft.a		:
 # ---- Variables Rules ---- #
 
 ${NAME}			:	${OBJS} Makefile ${HEAD}
-					${CC} ${CFLAGS} -I $(DIR_HEAD) -L libft/ -lft ${OBJS} -o ${NAME}
+					${CC} ${CFLAGS} -I $(DIR_HEAD) ${OBJS} -o ${NAME} -L libft/ -lft
 
 # ---- Compiled Rules ---- #
 

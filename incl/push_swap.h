@@ -68,10 +68,10 @@ void	rev_rotate(t_stack *stack);
 void	check_rr_rrr(t_strokes st, t_moves *moves);
 void	check_rot_rev_rot(t_strokes st, t_moves *moves);
 void	move(t_stack **a, t_stack **b, t_moves *moves);
-t_stack	**push(t_stack **a, t_stack **b);
+t_stack	**push(t_stack **a, t_stack **b, char *str);
 t_stack	**create_elem(int nmb, t_stack **stack);
 t_stack	**push_front(t_stack **stack, t_stack *elem);
 t_stack	**init_stacks(t_stack **a, t_stack **b);
-t_moves	*best_stroke(t_stack *a, t_stack *b);
+void	best_stroke(t_stack *a, t_stack *b, t_moves *moves);
 
 #endif

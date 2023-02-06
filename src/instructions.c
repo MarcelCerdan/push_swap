@@ -30,18 +30,7 @@ int	chose_inst(t_stack **a, t_stack **b, int inst)
 	return (-1);
 }
 
-void	swap(t_stack *stack)
-{
-	int	nb;
-
-	if (stack_size(stack) <= 1)
-		return ;
-	nb = stack->nb;
-	stack->nb = stack->next->nb;
-	stack->next->nb = nb;
-}
-
-t_stack	**push(t_stack **a, t_stack **b)
+t_stack	**push(t_stack **a, t_stack **b, char *str)
 {
 	t_stack	**new_b;
 
@@ -49,6 +38,8 @@ t_stack	**push(t_stack **a, t_stack **b)
 		return (b);
 	new_b = create_elem((*a)->nb, b);
 	del_elem(a);
+	ft_printf(str);
+	ft_printf("\n");
 	return (new_b);
 }
 

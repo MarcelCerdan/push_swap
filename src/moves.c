@@ -15,7 +15,7 @@
 
 void	move(t_stack **a, t_stack **b, t_moves *moves)
 {
-	while (moves->ra-- > 1 || moves->rb-- > 1)
+	while (moves->ra-- > 1 && moves->rb-- > 1)
 		chose_inst(a, b, RR);
 	while (moves->ra-- > 1)
 		chose_inst(a, b, RA);
@@ -27,8 +27,7 @@ void	move(t_stack **a, t_stack **b, t_moves *moves)
 		chose_inst(a, b, RRA);
 	while (moves->rrb-- > 1)
 		chose_inst(a, b, RRB);
-	push(b, a);
-	ft_printf("pa\n");
+	push(b, a, "pa");
 }
 
 void	check_rr_rrr(t_strokes st, t_moves *moves)

@@ -38,6 +38,7 @@ OBJS 		= 	$(addprefix $(DIR_OBJS), $(OBJS_LST))
 
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror -g3
+LEAKS	=	-fsanitize=address
 
 # ---- Commands ---- #
 
@@ -55,6 +56,9 @@ libft.a		:
 
 ${NAME}			:	${OBJS} Makefile ${HEAD}
 					${CC} ${CFLAGS} -I $(DIR_HEAD) ${OBJS} -o ${NAME} -L libft/ -lft
+
+leaks			:	${OBJS} Makefile ${HEAD}
+					${CC} ${CFLAGS} ${LEAKS} -I $(DIR_HEAD) ${OBJS} -o $@ -L libft/ -lft
 
 # ---- Compiled Rules ---- #
 

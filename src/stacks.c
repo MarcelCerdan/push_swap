@@ -25,7 +25,7 @@ t_stack	**init_stacks(t_stack **a, t_stack **b)
 		if ((*a)->nb <= third)
 		{
 			b = push(a, b, "pb");
-			if (flag == 1 && (*a)->next->nb > 2 * third)
+			if ((*a)->next && flag == 1 && (*a)->next->nb > 2 * third)
 				chose_inst(a, b, RR);
 			else if (flag == 1)
 				chose_inst(a, b, RB);

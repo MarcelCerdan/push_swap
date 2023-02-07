@@ -21,6 +21,7 @@ void	error(void *elem)
 	exit(1);
 }
 
+
 void	*check_args(int ac, char **av, int *args)
 {
 	int	i;
@@ -35,12 +36,11 @@ void	*check_args(int ac, char **av, int *args)
 		if (ft_strncmp(ft_itoa(args[ac - 1 - i]), av[i], ft_strlen(av[i])) != 0)
 			error(args);
 	}
-	args[ac - 1] = 0;
 	j = -1;
 	while (++j < ac - 1)
 	{
 		i = j;
-		while (++i <= ac - 1)
+		while (++i < ac - 1)
 		{
 			if (args[i] == args[j])
 				error(args);

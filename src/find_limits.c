@@ -41,11 +41,13 @@ int	find_third(t_stack *a)
 	return ((max + min) / 3);
 }
 
-int	find_inf(t_stack *stack, int nb, int index)
+int	find_inf(t_stack *stack, int nb)
 {
 	int	inf;
+	int	index;
 	int	inf_index;
 
+	index = 0;
 	while (stack && stack->nb > nb)
 	{
 		stack = stack->next;
@@ -57,7 +59,7 @@ int	find_inf(t_stack *stack, int nb, int index)
 	inf = stack->nb;
 	while (stack)
 	{
-		if (stack->nb > inf && stack->nb <= nb)
+		if (stack->nb > inf && stack->nb < nb)
 		{
 			inf = stack->nb;
 			inf_index = index;
@@ -68,11 +70,13 @@ int	find_inf(t_stack *stack, int nb, int index)
 	return (inf_index);
 }
 
-int	find_sup(t_stack *stack, int nb, int index)
+int	find_sup(t_stack *stack, int nb)
 {
 	int	sup;
+	int	index;
 	int	sup_index;
 
+	index = 0;
 	while (stack && stack->nb < nb)
 	{
 		stack = stack->next;
@@ -84,7 +88,7 @@ int	find_sup(t_stack *stack, int nb, int index)
 	sup_index = index;
 	while (stack)
 	{
-		if (stack->nb < sup && stack->nb >= nb)
+		if (stack->nb < sup && stack->nb > nb)
 		{
 			sup = stack->nb;
 			sup_index = index;

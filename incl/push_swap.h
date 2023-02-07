@@ -38,6 +38,7 @@ typedef struct s_moves
 
 typedef struct s_strokes
 {
+	int	elem_index;
 	int	index;
 	int	rb;
 	int	rrb;
@@ -51,8 +52,8 @@ typedef struct s_stack
 	struct s_stack	*next;
 }	t_stack;
 
-int		find_inf(t_stack *stack, int nb, int index);
-int		find_sup(t_stack *stack, int nb, int index);
+int		find_inf(t_stack *stack, int nb);
+int		find_sup(t_stack *stack, int nb);
 int		stack_size(t_stack *stack);
 int		is_sort(t_stack *stack);
 int		sort(t_stack **a);
@@ -62,12 +63,12 @@ int		check_stack(t_stack *a, int third);
 void	del_elem(t_stack **stack);
 void	*check_args(int ac, char **av, int *args);
 void	error(void *elem);
-void	swap(t_stack *stack);
 void	rotate(t_stack *stack);
 void	rev_rotate(t_stack *stack);
 void	check_rr_rrr(t_strokes st, t_moves *moves);
 void	check_rot_rev_rot(t_strokes st, t_moves *moves);
 void	move(t_stack **a, t_stack **b, t_moves *moves);
+void	put_zero(t_moves *m);
 t_stack	**push(t_stack **a, t_stack **b, char *str);
 t_stack	**create_elem(int nmb, t_stack **stack);
 t_stack	**push_front(t_stack **stack, t_stack *elem);

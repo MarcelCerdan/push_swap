@@ -28,6 +28,8 @@ void	move(t_stack **a, t_stack **b, t_moves *moves)
 	{
 		while (--moves->ra >= 0 && --moves->rb >= 0)
 			chose_inst(a, b, RR);
+		++moves->ra;
+		++moves->rb;
 	}
 	while (--moves->ra >= 0)
 		chose_inst(a, b, RA);
@@ -37,6 +39,8 @@ void	move(t_stack **a, t_stack **b, t_moves *moves)
 	{
 		while (--moves->rra >= 0 && --moves->rrb >= 0)
 			chose_inst(a, b, RRR);
+		++moves->rra;
+		++moves->rrb;
 	}
 	while (--moves->rra >= 0)
 		chose_inst(a, b, RRA);

@@ -28,8 +28,6 @@ void	*check_args(int ac, char **av, int *args)
 	int	j;
 
 	i = 0;
-	if (args == NULL || ac <= 2)
-		error(args);
 	while (++i <= (ac - 1))
 	{
 		args[ac - 1 - i] = ft_atoi(av[i]);

@@ -13,6 +13,15 @@
 #include "push_swap.h"
 #include "libft.h"
 
+static void	equal(t_moves *a, t_moves *b)
+{
+	a->ra = b->ra;
+	a->rb = b->rb;
+	a->rra = b->rra;
+	a->rrb = b->rrb;
+	a->total = b->total;
+}
+
 static t_moves	*calc_inst(t_strokes st)
 {
 	t_moves		*moves;
@@ -42,45 +51,59 @@ static t_moves	*inst_nb(t_strokes *limit, t_stack *a, t_stack *b, int lim)
 	return (calc_inst(*limit));
 }
 
-static t_moves	*find_best(t_stack *a, t_stack *b, int nb, int index)
+static void	find_best(t_stack *a, t_stack *b, t_moves *moves, t_elem *elem)
 {
-	t_strokes	inf;
-	t_strokes	sup;
+	t_strokes	*inf;
+	t_strokes	*sup;
 	t_moves		*inf_moves;
 	t_moves		*sup_moves;
 
-	inf.index = find_inf(a, nb);
-	sup.index = find_sup(a, nb);
-	inf.elem_index = index;
-	sup.elem_index = index;
-	if (inf.index > -1)
-		inf_moves = inst_nb(&inf, a, b, INF);
-	if (sup.index > -1)
-		sup_moves = inst_nb(&sup, a, b, SUP);
-	if (inf.index < 0)
-		return (sup_moves);
-	if (sup.index < 0)
-		return (inf_moves);
-	if (inf_moves->total <= sup_moves->total)
-		return (inf_moves);
-	return (sup_moves);
+	inf = malloc(sizeof(t_strokes));
+	sup = malloc(sizeof(t_strokes));
+	if (!inf || !sup)
+		error(NULL);
+	inf->index = find_inf(a, elem->nb);
+	sup->index = find_sup(a, elem->nb);
+	inf->elem_index = elem->index;
+	sup->elem_index = elem->index;
+	if (inf->index > -1)
+		inf_moves = inst_nb(inf, a, b, INF);
+	if (sup->index > -1)
+		sup_moves = inst_nb(sup, a, b, SUP);
+	if (inf->index < 0)
+		equal(moves, sup_moves);
+	else if (sup->index < 0)
+		equal(moves, inf_moves);
+	else if (inf_moves->total <= sup_moves->total)
+		equal(moves, inf_moves);
+	else
+		equal(moves, sup_moves);
 }
 
 void	best_stroke(t_stack *a, t_stack *b, t_moves *moves)
 {
 	t_moves	*current;
 	t_stack	*tmp;
-	int		index;
+	t_elem	*elem;
 
-	index = 0;
 	tmp = b;
-	moves = find_best (a, b, b->nb, index);
+	elem = malloc(sizeof(t_elem));
+	if (!elem)
+		error(NULL);
+	elem->index = 0;
+	elem->nb = tmp->nb;
+	find_best(a, b, moves, elem);
+	current = malloc(sizeof(t_moves));
+	if (!current)
+		error(NULL);
 	while (tmp->next)
 	{
 		tmp = tmp->next;
-		index++;
-		current = find_best(a, b, tmp->nb, index);
+		elem->index++;
+		elem->nb = tmp->nb;
+		find_best(a, b, current, elem);
 		if (current->total < moves->total)
-			moves = current;
+			equal(moves, current);
 	}
+	free(current);
 }

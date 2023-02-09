@@ -27,6 +27,19 @@
 # define INF 0
 # define SUP 1
 
+typedef struct s_elem
+{
+	int	index;
+	int	nb;
+}	t_elem;
+
+typedef struct s_bounds
+{
+	int	min;
+	int	max;
+	int	third;
+}	t_bounds;
+
 typedef struct s_moves
 {
 	int	rra;
@@ -58,8 +71,8 @@ int		stack_size(t_stack *stack);
 int		is_sort(t_stack *stack);
 int		sort(t_stack **a);
 int		chose_inst(t_stack **a, t_stack **b, int inst);
-int		find_third(t_stack *a);
-int		check_stack(t_stack *a, int third);
+void	find_third(t_stack *a, t_bounds *bounds);
+int		check_stack(t_stack *a, t_bounds *bounds);
 void	del_elem(t_stack **stack);
 void	*check_args(int ac, char **av, int *args);
 void	error(void *elem);

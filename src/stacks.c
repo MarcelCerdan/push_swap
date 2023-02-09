@@ -15,29 +15,26 @@
 
 t_stack	**init_stacks(t_stack **a, t_stack **b)
 {
-	int		third;
-	int		flag;
+	t_bounds	*bounds;
 
-	flag = 0;
-	third = find_third(*a);
-	while (check_stack(*a, third) == 0)
+	bounds = malloc(sizeof(t_bounds));
+	find_third(*a, bounds);
+	while ((*a)->next && check_stack(*a, bounds) == 0)
 	{
-		if ((*a)->nb <= third)
+		if ((*a)->nb <= bounds->min + bounds->third)
 		{
 			b = push(a, b, "pb");
-			if ((*a)->next && flag == 1 && (*a)->next->nb > 2 * third)
+			if ((*b)->next && (*a)->nb > bounds->min + 2 * bounds->third)
 				chose_inst(a, b, RR);
-			else if (flag == 1)
+			else if ((*b)->next)
 				chose_inst(a, b, RB);
 		}
-		else if ((*a)->nb <= 2 * third)
-		{
-			flag = 1;
+		else if ((*a)->nb <= bounds->min + 2 * bounds->third)
 			b = push(a, b, "pb");
-		}
 		else
 			chose_inst(a, b, RA);
 	}
+	free(bounds);
 	return (b);
 }
 

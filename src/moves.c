@@ -62,7 +62,7 @@ void	check_rr_rrr(t_strokes st, t_moves *moves)
 		moves->total = moves->rrb;
 	else
 		moves->total = moves->rra;
-	if ((st.ra > st.rb && st.ra < moves->total)
+	if ((st.ra >= st.rb && st.ra < moves->total)
 		|| (st.rb > st.ra && st.rb < moves->total))
 	{
 		put_zero(moves);

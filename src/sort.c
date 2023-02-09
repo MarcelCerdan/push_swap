@@ -32,13 +32,18 @@ int	sort(t_stack **a)
 	b = NULL;
 	b = init_stacks(a, b);
 	moves = malloc(sizeof(t_moves));
-	while ((*a)->next)
-		b = push(a, b, "pb");
+	if (!moves)
+		error(NULL);
+	if (*a)
+	{
+		while ((*a)->next)
+			b = push(a, b, "pb");
+	}
 	while (*b)
 	{
 		best_stroke(*a, *b, moves);
 		move(a, b, moves);
-		free(moves);
 	}
+	free(moves);
 	return (0);
 }

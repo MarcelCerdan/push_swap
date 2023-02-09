@@ -12,33 +12,33 @@
 
 #include "push_swap.h"
 
-int	check_stack(t_stack *a, int third)
+int	check_stack(t_stack *a, t_bounds *bounds)
 {
 	while (a)
 	{
-		if (a->nb <= 2 * third)
+		if (a->nb <= bounds->min + 2 * bounds->third)
 			return (0);
 		a = a->next;
 	}
 	return (1);
 }
 
-int	find_third(t_stack *a)
+void	find_third(t_stack *a, t_bounds *bounds)
 {
-	int		min;
-	int		max;
-
-	min = a->nb;
-	max = min;
+	bounds->min = a->nb;
+	bounds->max = bounds->min;
 	while (a)
 	{
-		if (a->nb > max)
-			max = a->nb;
-		if (a->nb < min)
-			min = a->nb;
+		if (a->nb > bounds->max)
+			bounds->max = a->nb;
+		if (a->nb < bounds->min)
+			bounds->min = a->nb;
 		a = a->next;
 	}
-	return ((max + min) / 3);
+	if (bounds->min < 0)
+		bounds->third = (bounds->max - bounds->min) / 3;
+	else
+		bounds->third = (bounds->max + bounds->min) / 3;
 }
 
 int	find_inf(t_stack *stack, int nb)

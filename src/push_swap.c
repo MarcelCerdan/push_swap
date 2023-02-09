@@ -54,7 +54,11 @@ int	main(int ac, char **av)
 	int		*args;
 	t_stack	**a_stack;
 
+	if (ac == 1)
+		return (0);
 	args = malloc (sizeof (int) * (ac - 1));
+	if (!args)
+		error(NULL);
 	check_args (ac, av, args);
 	a_stack = NULL;
 	i = -1;

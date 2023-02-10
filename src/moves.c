@@ -30,8 +30,6 @@ void	move(t_stack **a, t_stack **b, t_moves *moves)
 			chose_inst(a, b, RR);
 		if (moves->ra >= 0)
 			++moves->ra;
-		else
-			--moves->rb;
 	}
 	while (--moves->ra >= 0)
 		chose_inst(a, b, RA);
@@ -43,8 +41,6 @@ void	move(t_stack **a, t_stack **b, t_moves *moves)
 			chose_inst(a, b, RRR);
 		if (moves->rra >= 0)
 			++moves->rra;
-		else
-			--moves->rrb;
 	}
 	while (--moves->rra >= 0)
 		chose_inst(a, b, RRA);

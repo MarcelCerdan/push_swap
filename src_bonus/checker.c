@@ -26,9 +26,10 @@ t_stack	**push_check(t_stack **a, t_stack **b)
 
 static t_stack	**do_instruction(t_stack **a, t_stack **b, char *line)
 {
-	int len;
+	int	len;
+	int	tmp;
 
-	len = ft_strlen(line) - 1;
+	len = (int)ft_strlen(line) - 1;
 	if (ft_strncmp(line, "pa", 2) == 0 && len == 2)
 		push_check(b, a);
 	else if (ft_strncmp(line, "pb", 2) == 0 && len == 2)
@@ -41,6 +42,15 @@ static t_stack	**do_instruction(t_stack **a, t_stack **b, char *line)
 		rev_rotate(*a);
 	else if (ft_strncmp(line, "rrb", 3) == 0 && len == 3)
 		rev_rotate(*b);
+	else if (ft_strncmp(line, "sa", 2) == 0 && len == 2)
+	{
+		tmp = (*a)->nb;
+		(*a)->nb = (*a)->next->nb;
+		(*a)->next->nb = tmp;
+	}
+	else
+		error(NULL);
+	return (b);
 }
 
 static void	check_instructions(t_stack **a)
@@ -53,9 +63,13 @@ static void	check_instructions(t_stack **a)
 	while (line)
 	{
 		b = do_instruction(a, b, line);
-		free(line);
 		line = get_next_line(0);
 	}
+	free(line);
+	if (is_sort(*a))
+		ft_printf("OK\n");
+	else
+		ft_printf("KO\n");
 }
 
 int	main(int ac, char **av)

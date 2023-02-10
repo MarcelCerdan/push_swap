@@ -10,6 +10,8 @@ NAME		=	push_swap
 
 DIR_OBJS	=	.objs/
 
+DIR_OBJS_BONUS	=	.bonus/
+
 DIR_SRC		= 	src/
 
 DIR_BONUS	=	src_bonus/
@@ -25,14 +27,11 @@ HEAD_LST	=	push_swap.h libft.h get_next_line.h
 SRCS_LST 	= 	push_swap.c		errors.c 		\
 				stacks.c		instructions.c	\
 				sort.c			find_limits.c	\
-				moves.c			best_stroke.c
+				moves.c			best_stroke.c	\
 
 BONUS_LST	=	checker.c				get_next_line.c	\
-				get_next_line_utils.c   errors.c 		\
-                stacks.c				instructions.c	\
-                sort.c					find_limits.c	\
-                moves.c					best_stroke.c	\
-                last_rotate.c
+				get_next_line_utils.c	sort_checker.c	\
+				error_checker.c			stack_checker.c
 
 OBJS_LST	=	${SRCS_LST:%.c=%.o}
 
@@ -46,7 +45,7 @@ BONUS		=	$(addprefix $(DIR_BONUS), $(BONUS_LST))
 
 OBJS 		= 	$(addprefix $(DIR_OBJS), $(OBJS_LST))
 
-BONUS_OBJS	=	$(addprefix	$(DIR_OBJS), $(OBJS_BONUS_LST))
+BONUS_OBJS	=	$(addprefix	$(DIR_OBJS_BONUS), $(OBJS_BONUS_LST))
 
 # ---- Compilation ---- #
 
@@ -71,7 +70,7 @@ libft.a		:
 ${NAME}			:	${OBJS} Makefile ${HEAD}
 					${CC} ${CFLAGS} -I $(DIR_HEAD) ${OBJS} -o ${NAME} -L libft/ -lft
 
-bonus			:	${BONUS_OBJS} ${OBJS} Makefile ${HEAD}
+bonus			:	libft.a ${BONUS_OBJS} Makefile ${HEAD}
 					${CC} ${CFLAGS} -I $(DIR_HEAD) ${BONUS_OBJS} -o checker -L libft/ -lft
 
 leaks			:	${OBJS} Makefile ${HEAD}
@@ -83,23 +82,28 @@ leaks			:	${OBJS} Makefile ${HEAD}
 $(DIR_OBJS)%.o	:	$(DIR_SRC)%.c ${HEAD} Makefile | $(DIR_OBJS)
 					${CC} ${CFLAGS} -I $(DIR_HEAD) -c $< -o $@
 
-$(DIR_OBJS)%.o	:	$(DIR_BONUS)%.c ${HEAD} Makefile | $(DIR_OBJS)
+$(DIR_OBJS_BONUS)%.o	:	$(DIR_BONUS)%.c ${HEAD} Makefile | $(DIR_OBJS_BONUS)
 					${CC} ${CFLAGS} -I $(DIR_HEAD) -c $< -o $@
 
 ${DIR_OBJS}		:
 					${MKDIR} ${DIR_OBJS}
+
+${DIR_OBJS_BONUS}		:
+					${MKDIR} ${DIR_OBJS_BONUS}
 
 
 # ---- Usual Commands ---- #
 
 clean			:
 					${RM} ${DIR_OBJS}
+					${RM} ${DIR_OBJS_BONUS}
 
 fclean_libft	:
 					make fclean -C ${DIR_LIBFT}
 
 fclean			:	fclean_libft clean
 					${RM} ${NAME}
+					${RM} checker
 
 re				:	fclean
 					$(MAKE) all

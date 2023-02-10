@@ -30,6 +30,17 @@ int	chose_inst(t_stack **a, t_stack **b, int inst)
 	return (-1);
 }
 
+void	swap(t_stack **a, char *str)
+{
+	int	tmp;
+
+	tmp = (*a)->nb;
+	(*a)->nb = (*a)->next->nb;
+	(*a)->next->nb = tmp;
+	ft_printf(str);
+	ft_printf("\n");
+}
+
 t_stack	**push(t_stack **a, t_stack **b, char *str)
 {
 	t_stack	**new_b;

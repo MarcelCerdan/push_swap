@@ -13,28 +13,34 @@
 #include "push_swap.h"
 #include "libft.h"
 
-static void final_rot(t_stack **a)
+static void	skip(t_stack **tmp, int min, int *min_index)
+{
+	int	index;
+
+	index = 0;
+	while (*tmp)
+	{
+		if ((*tmp)->nb < min)
+		{
+			min = (*tmp)->nb;
+			*min_index = index;
+		}
+		index++;
+		(*tmp) = (*tmp)->next;
+	}
+}
+
+static void	final_rot(t_stack **a)
 {
 	t_stack	*tmp;
 	int		min;
-	int		index;
 	int		min_index;
 	int		i;
 
-	index = 0;
 	min_index = 0;
 	tmp = *a;
 	min = tmp->nb;
-	while (tmp)
-	{
-		if (tmp->nb < min)
-		{
-			min = tmp->nb;
-			min_index = index;
-		}
-		index++;
-		tmp = tmp->next;
-	}
+	skip(&tmp, min, &min_index);
 	i = stack_size(*a) - min_index;
 	if (i < min_index)
 	{
@@ -66,13 +72,12 @@ int	main(int ac, char **av)
 		a_stack = create_elem (args[i], a_stack);
 	if (is_sort(*a_stack))
 		return (0);
-	sort(a_stack);
-	final_rot(a_stack);
-	/*t_stack *tmp = *a_stack;
-	while (tmp)
+	if (ac >= 3 && ac <= 6)
 	{
-		ft_printf("%d\n", tmp->nb);
-		tmp = tmp->next;
-	}*/
+		small_sort(a_stack);
+		return (0);
+	}
+	sort(a_stack, ac);
+	final_rot(a_stack);
+	return (0);
 }
-

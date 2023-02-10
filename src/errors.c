@@ -21,7 +21,6 @@ void	error(void *elem)
 	exit(1);
 }
 
-
 void	*check_args(int ac, char **av, int *args)
 {
 	int	i;

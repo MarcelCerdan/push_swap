@@ -72,6 +72,7 @@ int		is_sort(t_stack *stack);
 int		sort(t_stack **a, int ac);
 int		chose_inst(t_stack **a, t_stack **b, int inst);
 void	find_third(t_stack *a, t_bounds *bounds);
+void	final_rot(t_stack **a);
 int		check_stack(t_stack *a, t_bounds *bounds);
 void	small_sort(t_stack **a);
 void	del_elem(t_stack **stack);

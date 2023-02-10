@@ -12,27 +12,41 @@ DIR_OBJS	=	.objs/
 
 DIR_SRC		= 	src/
 
+DIR_BONUS	=	src_bonus/
+
 DIR_HEAD 	=	incl/
 
 DIR_LIBFT	=	libft
 
 # ---- Files ---- #
 
-HEAD_LST	=	push_swap.h libft.h
+HEAD_LST	=	push_swap.h libft.h get_next_line.h
 
 SRCS_LST 	= 	push_swap.c		errors.c 		\
 				stacks.c		instructions.c	\
 				sort.c			find_limits.c	\
 				moves.c			best_stroke.c
 
+BONUS_LST	=	checker.c				get_next_line.c	\
+				get_next_line_utils.c   errors.c 		\
+                stacks.c				instructions.c	\
+                sort.c					find_limits.c	\
+                moves.c					best_stroke.c	\
+                last_rotate.c
 
 OBJS_LST	=	${SRCS_LST:%.c=%.o}
+
+OBJS_BONUS_LST	=	${BONUS_LST:%.c=%.o}
 
 HEAD 		= 	$(addprefix $(DIR_HEAD), $(HEAD_LST))
 
 SRCS 		= 	$(addprefix $(DIR_SRC), $(SRCS_LST))
 
+BONUS		=	$(addprefix $(DIR_BONUS), $(BONUS_LST))
+
 OBJS 		= 	$(addprefix $(DIR_OBJS), $(OBJS_LST))
+
+BONUS_OBJS	=	$(addprefix	$(DIR_OBJS), $(OBJS_BONUS_LST))
 
 # ---- Compilation ---- #
 
@@ -57,6 +71,9 @@ libft.a		:
 ${NAME}			:	${OBJS} Makefile ${HEAD}
 					${CC} ${CFLAGS} -I $(DIR_HEAD) ${OBJS} -o ${NAME} -L libft/ -lft
 
+bonus			:	${BONUS_OBJS} ${OBJS} Makefile ${HEAD}
+					${CC} ${CFLAGS} -I $(DIR_HEAD) ${BONUS_OBJS} -o checker -L libft/ -lft
+
 leaks			:	${OBJS} Makefile ${HEAD}
 					${CC} ${CFLAGS} ${LEAKS} -I $(DIR_HEAD) ${OBJS} -o $@ -L libft/ -lft
 
@@ -64,6 +81,9 @@ leaks			:	${OBJS} Makefile ${HEAD}
 
 
 $(DIR_OBJS)%.o	:	$(DIR_SRC)%.c ${HEAD} Makefile | $(DIR_OBJS)
+					${CC} ${CFLAGS} -I $(DIR_HEAD) -c $< -o $@
+
+$(DIR_OBJS)%.o	:	$(DIR_BONUS)%.c ${HEAD} Makefile | $(DIR_OBJS)
 					${CC} ${CFLAGS} -I $(DIR_HEAD) -c $< -o $@
 
 ${DIR_OBJS}		:

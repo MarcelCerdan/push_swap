@@ -30,7 +30,7 @@ static void	skip(t_stack **tmp, int min, int *min_index)
 	}
 }
 
-static void	final_rot(t_stack **a)
+void	final_rot(t_stack **a)
 {
 	t_stack	*tmp;
 	int		min;
@@ -62,7 +62,7 @@ int	main(int ac, char **av)
 
 	if (ac == 1)
 		return (0);
-	args = malloc (sizeof (int) * (ac - 1));
+	args = malloc(sizeof (int) * (ac - 1));
 	if (!args)
 		error(NULL);
 	check_args (ac, av, args);

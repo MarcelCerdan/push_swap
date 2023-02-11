@@ -76,6 +76,9 @@ bonus			:	libft.a ${BONUS_OBJS} Makefile ${HEAD}
 leaks			:	${OBJS} Makefile ${HEAD}
 					${CC} ${CFLAGS} ${LEAKS} -I $(DIR_HEAD) ${OBJS} -o $@ -L libft/ -lft
 
+leaks_bonus		:	 libft.a ${BONUS_OBJS} Makefile ${HEAD}
+					${CC} ${CFLAGS} ${LEAKS} -I $(DIR_HEAD) ${BONUS_OBJS} -o $@ -L libft/ -lft
+
 # ---- Compiled Rules ---- #
 
 

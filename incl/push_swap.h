@@ -65,6 +65,7 @@ typedef struct s_stack
 	struct s_stack	*next;
 }	t_stack;
 
+int		b_instructions(t_stack **b, char *line);
 int		find_inf(t_stack *stack, int nb);
 int		find_sup(t_stack *stack, int nb);
 int		stack_size(t_stack *stack);
@@ -85,6 +86,8 @@ void	check_rot_rev_rot(t_strokes st, t_moves *moves);
 void	move(t_stack **a, t_stack **b, t_moves *moves);
 void	put_zero(t_moves *m);
 void	swap(t_stack **a, char *str);
+void	do_rr_rrr(t_stack **a, t_stack **b, char *line, int len);
+void	swap_checker(t_stack **a);
 t_stack	**push(t_stack **a, t_stack **b, char *str);
 t_stack	**create_elem(int nmb, t_stack **stack);
 t_stack	**push_front(t_stack **stack, t_stack *elem);

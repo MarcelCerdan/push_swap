@@ -10,6 +10,53 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
+#include "libft.h"
+
+int	b_instructions(t_stack **b, char *line)
+{
+	int	len;
+
+	len = (int)ft_strlen(line) - 1;
+	if (ft_strncmp(line, "rb", 2) == 0 && len == 2)
+	{
+		if (b)
+			rotate(*b);
+		return (0);
+	}
+	else if (ft_strncmp(line, "rrb", 3) == 0 && len == 3)
+	{
+		if (b)
+			rev_rotate(*b);
+		return (0);
+	}
+	else if (ft_strncmp(line, "sb", 2) == 0 && len == 2)
+	{
+		if (b)
+			swap_checker(b);
+		return (0);
+	}
+	return (1);
+}
+
+void	do_rr_rrr(t_stack **a, t_stack **b, char *line, int len)
+{
+	if (ft_strncmp(line, "rr", 2) == 0 && len == 2)
+	{
+		if (a)
+			rotate(*a);
+		if (b)
+			rotate(*b);
+	}
+	else if (ft_strncmp(line, "rrr", 3) == 0 && len == 3)
+	{
+		if (a)
+			rev_rotate(*a);
+		if (b)
+			rev_rotate(*b);
+	}
+	else
+		error(line);
+}
 
 int	is_sort(t_stack *stack)
 {
@@ -26,7 +73,7 @@ void	rotate(t_stack *stack)
 {
 	int		first;
 
-	if (!stack)
+	if (stack_size(stack) <= 1)
 		return ;
 	first = stack->nb;
 	while (stack->next)
@@ -43,7 +90,7 @@ void	rev_rotate(t_stack *stack)
 	int		*nb;
 	int		i;
 
-	if (!stack)
+	if (stack_size(stack) <= 1)
 		return ;
 	nb = malloc(sizeof(int) * stack_size(stack));
 	if (!nb)
@@ -55,7 +102,6 @@ void	rev_rotate(t_stack *stack)
 		nb[++i] = tmp->nb;
 		tmp = tmp->next;
 	}
-	free(tmp);
 	stack->nb = nb[i];
 	stack = stack->next;
 	i = -1;

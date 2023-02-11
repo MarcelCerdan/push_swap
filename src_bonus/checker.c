@@ -13,6 +13,15 @@
 #include "get_next_line.h"
 #include "libft.h"
 
+void	swap_checker(t_stack **a)
+{
+	int	tmp;
+
+	tmp = (*a)->nb;
+	(*a)->nb = (*a)->next->nb;
+	(*a)->next->nb = tmp;
+}
+
 t_stack	**push_check(t_stack **a, t_stack **b)
 {
 	t_stack	**new_b;
@@ -27,7 +36,6 @@ t_stack	**push_check(t_stack **a, t_stack **b)
 static t_stack	**do_instruction(t_stack **a, t_stack **b, char *line)
 {
 	int	len;
-	int	tmp;
 
 	len = (int)ft_strlen(line) - 1;
 	if (ft_strncmp(line, "pa", 2) == 0 && len == 2)
@@ -36,25 +44,18 @@ static t_stack	**do_instruction(t_stack **a, t_stack **b, char *line)
 		b = push_check(a, b);
 	else if (ft_strncmp(line, "ra", 2) == 0 && len == 2)
 		rotate(*a);
-	else if (ft_strncmp(line, "rb", 2) == 0 && len == 2)
-		rotate(*b);
 	else if (ft_strncmp(line, "rra", 3) == 0 && len == 3)
 		rev_rotate(*a);
-	else if (ft_strncmp(line, "rrb", 3) == 0 && len == 3)
-		rev_rotate(*b);
 	else if (ft_strncmp(line, "sa", 2) == 0 && len == 2)
-	{
-		tmp = (*a)->nb;
-		(*a)->nb = (*a)->next->nb;
-		(*a)->next->nb = tmp;
-	}
+		swap_checker(a);
 	else
-		error(NULL);
+		do_rr_rrr(a, b, line, len);
 	return (b);
 }
 
 static void	check_instructions(t_stack **a)
 {
+	int		result;
 	char	*line;
 	t_stack	**b;
 
@@ -62,7 +63,9 @@ static void	check_instructions(t_stack **a)
 	line = get_next_line(0);
 	while (line)
 	{
-		b = do_instruction(a, b, line);
+		result = b_instructions(b, line);
+		if (result == 1)
+			b = do_instruction(a, b, line);
 		line = get_next_line(0);
 	}
 	free(line);

@@ -72,7 +72,7 @@ int	main(int ac, char **av)
 		a_stack = create_elem (args[i], a_stack);
 	if (is_sort(*a_stack))
 		return (0);
-	if (ac >= 3 && ac <= 6)
+	if (ac <= 4)
 	{
 		small_sort(a_stack);
 		return (0);

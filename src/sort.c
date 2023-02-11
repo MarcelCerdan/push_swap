@@ -85,13 +85,11 @@ int	sort(t_stack **a, int ac)
 	moves = malloc(sizeof(t_moves));
 	if (!moves)
 		error(NULL);
-	if (*a)
+	if (*a && (*a)->next)
 	{
 		while ((*a)->next->next)
 			b = push(a, b, "pb");
 	}
-	if (ac > 6)
-		b = push(a, b, "pb");
 	while (*b)
 	{
 		best_stroke(*a, *b, moves);

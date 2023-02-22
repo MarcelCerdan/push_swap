@@ -12,6 +12,14 @@
 
 #include "push_swap.h"
 
+void	init_limits(t_strokes *inf, t_strokes *sup, t_stack *a, t_elem *elem)
+{
+	inf->index = find_inf(a, elem->nb);
+	sup->index = find_sup(a, elem->nb);
+	inf->elem_index = elem->index;
+	sup->elem_index = elem->index;
+}
+
 int	check_stack(t_stack *a, t_bounds *bounds)
 {
 	while (a)

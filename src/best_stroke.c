@@ -13,13 +13,15 @@
 #include "push_swap.h"
 #include "libft.h"
 
-static void	equal(t_moves *a, t_moves *b)
+static void	equal(t_moves *a, t_moves *b, t_moves *clear)
 {
 	a->ra = b->ra;
 	a->rb = b->rb;
 	a->rra = b->rra;
 	a->rrb = b->rrb;
 	a->total = b->total;
+	free(b);
+	free(clear);
 }
 
 static t_moves	*calc_inst(t_strokes st)
@@ -62,22 +64,21 @@ static void	find_best(t_stack *a, t_stack *b, t_moves *moves, t_elem *elem)
 	sup = malloc(sizeof(t_strokes));
 	if (!inf || !sup)
 		error(NULL);
-	inf->index = find_inf(a, elem->nb);
-	sup->index = find_sup(a, elem->nb);
-	inf->elem_index = elem->index;
-	sup->elem_index = elem->index;
+	inf_moves = NULL;
+	sup_moves = NULL;
+	init_limits(inf, sup, a, elem);
 	if (inf->index > -1)
 		inf_moves = inst_nb(inf, a, b, INF);
 	if (sup->index > -1)
 		sup_moves = inst_nb(sup, a, b, SUP);
 	if (inf->index < 0)
-		equal(moves, sup_moves);
-	else if (sup->index < 0)
-		equal(moves, inf_moves);
-	else if (inf_moves->total <= sup_moves->total)
-		equal(moves, inf_moves);
+		equal(moves, sup_moves, inf_moves);
+	else if (sup->index < 0 || inf_moves->total <= sup_moves->total)
+		equal(moves, inf_moves, sup_moves);
 	else
-		equal(moves, sup_moves);
+		equal(moves, sup_moves, inf_moves);
+	free(inf);
+	free(sup);
 }
 
 void	best_stroke(t_stack *a, t_stack *b, t_moves *moves)
@@ -88,22 +89,22 @@ void	best_stroke(t_stack *a, t_stack *b, t_moves *moves)
 
 	tmp = b;
 	elem = malloc(sizeof(t_elem));
-	if (!elem)
-		error(NULL);
+	check_malloc(elem, NULL);
 	elem->index = 0;
 	elem->nb = tmp->nb;
 	find_best(a, b, moves, elem);
-	current = malloc(sizeof(t_moves));
-	if (!current)
-		error(NULL);
 	while (tmp->next)
 	{
+		current = malloc(sizeof(t_moves));
+		check_malloc(current, elem);
 		tmp = tmp->next;
 		elem->index++;
 		elem->nb = tmp->nb;
 		find_best(a, b, current, elem);
 		if (current->total < moves->total)
-			equal(moves, current);
+			equal(moves, current, NULL);
+		else
+			free(current);
 	}
-	free(current);
+	free(elem);
 }

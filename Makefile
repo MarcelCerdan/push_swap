@@ -73,7 +73,7 @@ ${NAME}			:	${OBJS} Makefile ${HEAD}
 bonus			:	libft.a ${BONUS_OBJS} Makefile ${HEAD}
 					${CC} ${CFLAGS} -I $(DIR_HEAD) ${BONUS_OBJS} -o checker -L libft/ -lft
 
-leaks			:	${OBJS} Makefile ${HEAD}
+leaks			:	libft.a ${OBJS} Makefile ${HEAD}
 					${CC} ${CFLAGS} ${LEAKS} -I $(DIR_HEAD) ${OBJS} -o $@ -L libft/ -lft
 
 leaks_bonus		:	 libft.a ${BONUS_OBJS} Makefile ${HEAD}

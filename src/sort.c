@@ -96,5 +96,6 @@ int	sort(t_stack **a, int ac)
 		move(a, b, moves);
 	}
 	free(moves);
+	clear_stack(b);
 	return (0);
 }

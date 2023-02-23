@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "push_swap.h"
 
 size_t	ft_strlen_gnl(const char *s)
 {
@@ -57,7 +58,7 @@ char	*ft_strjoin_gnl(char *s1, char const *s2, int s2_size)
 	len = ft_strlen_gnl(s1) + s2_size;
 	joined_str = malloc((len + 1) * sizeof(char));
 	if (joined_str == NULL)
-		return (NULL);
+		error(NULL);
 	i = 0;
 	while (s1 && s1[i])
 	{

@@ -55,7 +55,12 @@ void	do_rr_rrr(t_stack **a, t_stack **b, char *line, int len)
 			rev_rotate(*b);
 	}
 	else
+	{
+		if (b)
+			clear_stack(b);
+		clear_stack(a);
 		error(line);
+	}
 }
 
 int	is_sort(t_stack *stack)

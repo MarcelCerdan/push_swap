@@ -11,6 +11,13 @@
 /* ************************************************************************** */
 #include "push_swap.h"
 
+void	clear_stack(t_stack **a)
+{
+	while (*a)
+		del_elem(a);
+	free(a);
+}
+
 void	del_elem(t_stack **stack)
 {
 	t_stack	*tmp;

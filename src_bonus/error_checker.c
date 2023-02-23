@@ -12,6 +12,12 @@
 #include "push_swap.h"
 #include "libft.h"
 
+void	check_malloc(void *ptr, void *free)
+{
+	if (!ptr)
+		error(free);
+}
+
 void	error(void *elem)
 {
 	if (elem != NULL)
@@ -20,18 +26,11 @@ void	error(void *elem)
 	exit(1);
 }
 
-void	*check_args(int ac, char **av, int *args)
+static void	check_duplicate(int ac, int *args)
 {
-	int	i;
 	int	j;
+	int	i;
 
-	i = 0;
-	while (++i <= (ac - 1))
-	{
-		args[ac - 1 - i] = ft_atoi(av[i]);
-		if (ft_strncmp(ft_itoa(args[ac - 1 - i]), av[i], ft_strlen(av[i])) != 0)
-			error(args);
-	}
 	j = -1;
 	while (++j < ac - 1)
 	{
@@ -42,5 +41,29 @@ void	*check_args(int ac, char **av, int *args)
 				error(args);
 		}
 	}
+}
+
+void	*check_args(int ac, char **av, int *args)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	while (++i <= (ac - 1))
+	{
+		args[ac - 1 - i] = ft_atoi(av[i]);
+		str = ft_itoa(args[ac - 1 - i]);
+		check_malloc(str, NULL);
+		if ((ft_strncmp(str, av[i], ft_strlen(av[i])) != 0
+				&& av[i][0] != '+')
+				|| (ft_strncmp(str, av[i] + 1, ft_strlen(av[i]) - 1) != 0
+				&& av[i][0] == '+'))
+		{
+			free(str);
+			error(args);
+		}
+		free(str);
+	}
+	check_duplicate(ac, args);
 	return (args);
 }

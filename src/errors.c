@@ -55,9 +55,15 @@ void	*check_args(int ac, char **av, int *args)
 		args[ac - 1 - i] = ft_atoi(av[i]);
 		str = ft_itoa(args[ac - 1 - i]);
 		if (!str)
-			error(NULL);
-		if (ft_strncmp(str, av[i], ft_strlen(av[i])) != 0)
 			error(args);
+		if ((ft_strncmp(str, av[i], ft_strlen(av[i])) != 0
+				&& av[i][0] != '+')
+				|| (ft_strncmp(str, av[i] + 1, ft_strlen(av[i]) - 1) != 0
+				&& av[i][0] == '+'))
+		{
+			free(str);
+			error(args);
+		}
 		free(str);
 	}
 	check_duplicate(ac, args);

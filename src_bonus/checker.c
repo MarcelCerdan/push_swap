@@ -26,7 +26,7 @@ t_stack	**push_check(t_stack **a, t_stack **b)
 {
 	t_stack	**new_b;
 
-	if (stack_size(*a) == 0)
+	if (!a || stack_size(*a) == 0)
 		return (b);
 	new_b = create_elem((*a)->nb, b);
 	del_elem(a);
@@ -66,8 +66,11 @@ static void	check_instructions(t_stack **a)
 		result = b_instructions(b, line);
 		if (result == 1)
 			b = do_instruction(a, b, line);
+		free(line);
 		line = get_next_line(0);
 	}
+	if (b)
+		clear_stack(b);
 	free(line);
 	if (is_sort(*a))
 		ft_printf("OK\n");
@@ -91,6 +94,8 @@ int	main(int ac, char **av)
 	i = -1;
 	while (++i < ac - 1)
 		a = create_elem (args[i], a);
+	free(args);
 	check_instructions(a);
+	clear_stack(a);
 	return (0);
 }

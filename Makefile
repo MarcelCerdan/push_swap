@@ -60,14 +60,14 @@ MKDIR	=	mkdir -p
 
 # ********* RULES ******** #
 
-all			:	libft.a ${NAME}
+all			:	${NAME}
 
 libft.a		:
 				make -j -C ${DIR_LIBFT}
 
 # ---- Variables Rules ---- #
 
-${NAME}			:	${OBJS} Makefile ${HEAD}
+${NAME}			:	libft.a ${OBJS} Makefile ${HEAD}
 					${CC} ${CFLAGS} -I $(DIR_HEAD) ${OBJS} -o ${NAME} -L libft/ -lft
 
 bonus			:	libft.a ${BONUS_OBJS} Makefile ${HEAD}

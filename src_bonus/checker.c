@@ -17,6 +17,8 @@ void	swap_checker(t_stack **a)
 {
 	int	tmp;
 
+	if(!(*a))
+		return ;
 	tmp = (*a)->nb;
 	(*a)->nb = (*a)->next->nb;
 	(*a)->next->nb = tmp;

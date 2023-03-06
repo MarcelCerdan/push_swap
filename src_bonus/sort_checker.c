@@ -65,6 +65,8 @@ void	do_rr_rrr(t_stack **a, t_stack **b, char *line, int len)
 
 int	is_sort(t_stack *stack)
 {
+	if (!stack)
+		return (0);
 	while (stack->next)
 	{
 		if (stack->next->nb < stack->nb)

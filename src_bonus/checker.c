@@ -17,7 +17,7 @@ void	swap_checker(t_stack **a)
 {
 	int	tmp;
 
-	if(!(*a))
+	if (!(*a) || !((*a)->next))
 		return ;
 	tmp = (*a)->nb;
 	(*a)->nb = (*a)->next->nb;
@@ -71,13 +71,13 @@ static void	check_instructions(t_stack **a)
 		free(line);
 		line = get_next_line(0);
 	}
-	if (b)
-		clear_stack(b);
 	free(line);
-	if (is_sort(*a))
+	if (is_sort(*a) && (!b || !(*b)))
 		ft_printf("OK\n");
 	else
 		ft_printf("KO\n");
+	if (b)
+		clear_stack(b);
 }
 
 int	main(int ac, char **av)

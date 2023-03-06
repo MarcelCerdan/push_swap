@@ -33,9 +33,9 @@ BONUS_LST	=	checker.c				get_next_line.c	\
 				get_next_line_utils.c	sort_checker.c	\
 				error_checker.c			stack_checker.c
 
-OBJS_LST	=	${SRCS_LST:%.c=%.o}
+OBJS_LST	=	${SRCS_LST:.c=.o}
 
-OBJS_BONUS_LST	=	${BONUS_LST:%.c=%.o}
+OBJS_BONUS_LST	=	${BONUS_LST:.c=.o}
 
 HEAD 		= 	$(addprefix $(DIR_HEAD), $(HEAD_LST))
 
@@ -47,6 +47,10 @@ OBJS 		= 	$(addprefix $(DIR_OBJS), $(OBJS_LST))
 
 BONUS_OBJS	=	$(addprefix	$(DIR_OBJS_BONUS), $(OBJS_BONUS_LST))
 
+DEPS		=	$(OBJS:.o=.d)
+
+BONUS_DEPS	=	$(BONUS_OBJS:.o=.d)
+
 # ---- Compilation ---- #
 
 CC		=	cc
@@ -57,10 +61,14 @@ LEAKS	=	-fsanitize=address
 
 RM		=	rm -rf
 MKDIR	=	mkdir -p
+DEP		=	-MMD -MP
 
 # ********* RULES ******** #
 
 all			:	${NAME}
+
+-include		$(DEPS)
+-include		$(BONUS_DEPS)
 
 libft.a		:
 				make -j -C ${DIR_LIBFT}
@@ -82,11 +90,11 @@ leaks_bonus		:	 libft.a ${BONUS_OBJS} Makefile ${HEAD}
 # ---- Compiled Rules ---- #
 
 
-$(DIR_OBJS)%.o	:	$(DIR_SRC)%.c ${HEAD} Makefile | $(DIR_OBJS)
-					${CC} ${CFLAGS} -I $(DIR_HEAD) -c $< -o $@
+$(DIR_OBJS)%.o	:	$(DIR_SRC)%.c | $(DIR_OBJS)
+					${CC} ${CFLAGS} $(DEP) -I $(DIR_HEAD) -c $< -o $@
 
-$(DIR_OBJS_BONUS)%.o	:	$(DIR_BONUS)%.c ${HEAD} Makefile | $(DIR_OBJS_BONUS)
-					${CC} ${CFLAGS} -I $(DIR_HEAD) -c $< -o $@
+$(DIR_OBJS_BONUS)%.o	:	$(DIR_BONUS)%.c | $(DIR_OBJS_BONUS)
+							${CC} ${CFLAGS} $(DEP) -I $(DIR_HEAD) -c $< -o $@
 
 ${DIR_OBJS}		:
 					${MKDIR} ${DIR_OBJS}

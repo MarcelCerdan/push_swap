@@ -40,27 +40,31 @@ static void	find_order(t_stack *a, t_bounds *bounds_index)
 	}
 }
 
-void	small_sort(t_stack **a)
+int	small_sort(t_stack **a)
 {
 	t_bounds	bounds_index;
+	int			err;
 
 	find_order(*a, &bounds_index);
 	if (bounds_index.max == 2 && bounds_index.min == 1)
-		return (swap(a, "sa"));
+		return (swap(a, "sa"), 0);
 	else if (bounds_index.max == 0 && bounds_index.min == 2)
 	{
 		swap(a, "sa");
-		chose_inst(a, NULL, RRA);
+		err = chose_inst(a, NULL, RRA);
 	}
 	else if (bounds_index.max == 0 && bounds_index.min == 1)
-		chose_inst(a, NULL, RA);
+		err = chose_inst(a, NULL, RA);
 	else if (bounds_index.max == 1 && bounds_index.min == 0)
 	{
 		swap(a, "sa");
-		chose_inst(a, NULL, RA);
+		err = chose_inst(a, NULL, RA);
 	}
 	else if (bounds_index.max == 1 && bounds_index.min == 2)
-		chose_inst(a, NULL, RRA);
+		err = chose_inst(a, NULL, RRA);
+	if (err < 0)
+		error_malloc(a, NULL, "small_sort");
+	return (0);
 }
 
 int	is_sort(t_stack *stack)
@@ -82,9 +86,11 @@ int	sort(t_stack **a, int ac)
 	b = NULL;
 	if (ac > 6)
 		b = init_stacks(a, b);
+	if (!b && ac > 6)
+		error_malloc(a, b, "sort");
 	moves = malloc(sizeof(t_moves));
 	if (!moves)
-		error(NULL);
+		error_malloc(a, b, "sort");
 	if (*a && (*a)->next)
 	{
 		while ((*a)->next->next)
@@ -92,7 +98,8 @@ int	sort(t_stack **a, int ac)
 	}
 	while (*b)
 	{
-		best_stroke(*a, *b, moves);
+		if (best_stroke(a, b, moves) < 0)
+			return (free(moves), error_malloc(a, b, "best_stroke"), -1);
 		move(a, b, moves);
 	}
 	free(moves);

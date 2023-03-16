@@ -13,10 +13,21 @@
 #include "push_swap.h"
 #include "libft.h"
 
-void	check_malloc(void *ptr, void *free)
+void	check_malloc(void *ptr, t_stack **a, t_stack **b, char *str)
 {
 	if (!ptr)
-		error(free);
+		error_malloc(a, b, str);
+}
+
+void	error_malloc(t_stack **a, t_stack **b, char *str)
+{
+	if (a != NULL)
+		clear_stack(a);
+	if (b != NULL)
+		clear_stack(b);
+	write(2, str, ft_strlen(str));
+	write(2, " : malloc error\n", 16);
+	exit(1);
 }
 
 void	error(void *elem)

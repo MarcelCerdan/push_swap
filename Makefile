@@ -18,9 +18,11 @@ DIR_BONUS	=	src_bonus/
 
 DIR_HEAD 	=	incl/
 
-DIR_LIBFT	=	libft
+DIR_LIBFT	=	libft/
 
 # ---- Files ---- #
+
+LIBFT		=	${DIR_LIBFT}libft.a
 
 HEAD_LST	=	push_swap.h libft.h get_next_line.h
 
@@ -54,14 +56,14 @@ BONUS_DEPS	=	$(BONUS_OBJS:.o=.d)
 # ---- Compilation ---- #
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -g3
+CFLAGS	=	-Wall -Wextra -Werror
 LEAKS	=	-fsanitize=address
 
 # ---- Commands ---- #
 
 RM		=	rm -rf
 MKDIR	=	mkdir -p
-DEP		=	-MMD -MP
+DFLAG	=	-MMD -MP
 
 # ********* RULES ******** #
 
@@ -70,38 +72,34 @@ all			:	${NAME}
 -include		$(DEPS)
 -include		$(BONUS_DEPS)
 
-libft.a		:
-				make -j -C ${DIR_LIBFT}
+${LIBFT}		:	FORCE
+					make -j -C ${DIR_LIBFT}
+
+FORCE			:
 
 # ---- Variables Rules ---- #
 
-${NAME}			:	libft.a ${OBJS} Makefile ${HEAD}
-					${CC} ${CFLAGS} -I $(DIR_HEAD) ${OBJS} -o ${NAME} -L libft/ -lft
+${NAME}			:	${LIBFT} ${OBJS}
+					${CC} ${CFLAGS} ${OBJS} -o ${NAME} -L libft/ -lft
 
-bonus			:	libft.a ${BONUS_OBJS} Makefile ${HEAD}
-					${CC} ${CFLAGS} -I $(DIR_HEAD) ${BONUS_OBJS} -o checker -L libft/ -lft
+bonus			:	${LIBFT} ${BONUS_OBJS}
+					${CC} ${CFLAGS} ${BONUS_OBJS} -o checker -L libft/ -lft
 
-leaks			:	libft.a ${OBJS} Makefile ${HEAD}
+leaks			:	${LIBFT} ${OBJS} Makefile ${HEAD}
 					${CC} ${CFLAGS} ${LEAKS} -I $(DIR_HEAD) ${OBJS} -o $@ -L libft/ -lft
 
-leaks_bonus		:	 libft.a ${BONUS_OBJS} Makefile ${HEAD}
+leaks_bonus		:	 ${LIBFT} ${BONUS_OBJS} Makefile ${HEAD}
 					${CC} ${CFLAGS} ${LEAKS} -I $(DIR_HEAD) ${BONUS_OBJS} -o $@ -L libft/ -lft
 
 # ---- Compiled Rules ---- #
 
-
-$(DIR_OBJS)%.o	:	$(DIR_SRC)%.c | $(DIR_OBJS)
-					${CC} ${CFLAGS} $(DEP) -I $(DIR_HEAD) -c $< -o $@
-
-$(DIR_OBJS_BONUS)%.o	:	$(DIR_BONUS)%.c | $(DIR_OBJS_BONUS)
-							${CC} ${CFLAGS} $(DEP) -I $(DIR_HEAD) -c $< -o $@
-
-${DIR_OBJS}		:
+$(DIR_OBJS)%.o	:	$(DIR_SRC)%.c
 					${MKDIR} ${DIR_OBJS}
+					${CC} ${CFLAGS} $(DFLAG) -I $(DIR_HEAD) -c $< -o $@
 
-${DIR_OBJS_BONUS}		:
-					${MKDIR} ${DIR_OBJS_BONUS}
-
+$(DIR_OBJS_BONUS)%.o	:	$(DIR_BONUS)%.c
+							${MKDIR} ${DIR_OBJS_BONUS}
+							${CC} ${CFLAGS} $(DFLAG) -I $(DIR_HEAD) -c $< -o $@
 
 # ---- Usual Commands ---- #
 

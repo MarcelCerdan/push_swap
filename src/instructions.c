@@ -22,11 +22,15 @@ int	chose_inst(t_stack **a, t_stack **b, int inst)
 	else if (inst == RR)
 		return (rotate(*a), rotate(*b), ft_printf("rr\n"));
 	else if (inst == RRA)
-		return (rev_rotate(*a), ft_printf("rra\n"));
+		return (ft_printf("rra\n"), rev_rotate(*a));
 	else if (inst == RRB)
-		return (rev_rotate(*b), ft_printf("rrb\n"));
+		return (ft_printf("rrb\n"), rev_rotate(*b));
 	else if (inst == RRR)
-		return (rev_rotate(*a), rev_rotate(*b), ft_printf("rrr\n"));
+	{
+		if (rev_rotate(*a) < 0 || rev_rotate(*b) < 0)
+			return (-1);
+		return (ft_printf("rrr\n"));
+	}
 	return (-1);
 }
 
@@ -48,6 +52,8 @@ t_stack	**push(t_stack **a, t_stack **b, char *str)
 	if (stack_size(*a) == 0)
 		return (b);
 	new_b = create_elem((*a)->nb, b);
+	if (!new_b)
+		return (NULL);
 	del_elem(a);
 	ft_printf(str);
 	ft_printf("\n");
@@ -67,7 +73,7 @@ void	rotate(t_stack *stack)
 	stack->nb = first;
 }
 
-void	rev_rotate(t_stack *stack)
+int	rev_rotate(t_stack *stack)
 {
 	t_stack	*tmp;
 	int		*nb;
@@ -75,7 +81,7 @@ void	rev_rotate(t_stack *stack)
 
 	nb = malloc(sizeof(int) * stack_size(stack));
 	if (!nb)
-		error(NULL);
+		return (-1);
 	i = -1;
 	tmp = stack;
 	while (tmp)
@@ -92,5 +98,5 @@ void	rev_rotate(t_stack *stack)
 		stack->nb = nb[++i];
 		stack = stack->next;
 	}
-	free(nb);
+	return (free(nb), 0);
 }

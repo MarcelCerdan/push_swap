@@ -70,20 +70,19 @@ int	main(int ac, char **av)
 	if (ac == 1)
 		return (0);
 	args = malloc(sizeof (int) * (ac - 1));
-	check_malloc(args, NULL);
+	check_malloc(args, NULL, NULL, "main");
 	check_args (ac, av, args);
 	a_stack = NULL;
 	i = -1;
 	while (++i < ac - 1)
-		a_stack = create_elem (args[i], a_stack);
+		a_stack = create_elem(args[i], a_stack);
 	free(args);
+	if (!a_stack)
+		error(NULL);
 	if (is_sort(*a_stack))
 		return (clear_stack(a_stack), 0);
 	if (ac <= 4)
-	{
-		small_sort(a_stack);
-		return (clear_stack(a_stack), 0);
-	}
+		return (small_sort(a_stack), clear_stack(a_stack), 0);
 	sort(a_stack, ac);
 	final_rot(a_stack);
 	clear_stack(a_stack);

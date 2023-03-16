@@ -18,6 +18,8 @@ t_stack	**init_stacks(t_stack **a, t_stack **b)
 	t_bounds	*bounds;
 
 	bounds = malloc(sizeof(t_bounds));
+	if (!bounds)
+		return (NULL);
 	find_third(*a, bounds);
 	while ((*a)->next && check_stack(*a, bounds) == 0)
 	{
@@ -33,6 +35,8 @@ t_stack	**init_stacks(t_stack **a, t_stack **b)
 			b = push(a, b, "pb");
 		else
 			chose_inst(a, b, RA);
+		if (!b)
+			return (NULL);
 	}
 	free(bounds);
 	return (b);
@@ -83,7 +87,7 @@ t_stack	**create_elem(int nb, t_stack **stack)
 
 	elem = malloc (sizeof (t_stack));
 	if (!elem)
-		return (NULL);
+		return (clear_stack(stack), NULL);
 	elem->nb = nb;
 	elem->next = NULL;
 	stack = push_front(stack, elem);

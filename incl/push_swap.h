@@ -75,15 +75,16 @@ int		chose_inst(t_stack **a, t_stack **b, int inst);
 void	find_third(t_stack *a, t_bounds *bounds);
 void	final_rot(t_stack **a);
 int		check_stack(t_stack *a, t_bounds *bounds);
-void	check_malloc(void *ptr, void *free);
+void	check_malloc(void *ptr, t_stack **a, t_stack **b, char *str);
 void	init_limits(t_strokes *inf, t_strokes *sup, t_stack *a, t_elem *elem);
-void	small_sort(t_stack **a);
+int		small_sort(t_stack **a);
 void	clear_stack(t_stack **a);
 void	del_elem(t_stack **stack);
 void	*check_args(int ac, char **av, int *args);
 void	error(void *elem);
+void	error_malloc(t_stack **a, t_stack **b, char *str);
 void	rotate(t_stack *stack);
-void	rev_rotate(t_stack *stack);
+int		rev_rotate(t_stack *stack);
 void	check_rr_rrr(t_strokes st, t_moves *moves);
 void	check_rot_rev_rot(t_strokes st, t_moves *moves);
 void	move(t_stack **a, t_stack **b, t_moves *moves);
@@ -95,6 +96,6 @@ t_stack	**push(t_stack **a, t_stack **b, char *str);
 t_stack	**create_elem(int nmb, t_stack **stack);
 t_stack	**push_front(t_stack **stack, t_stack *elem);
 t_stack	**init_stacks(t_stack **a, t_stack **b);
-void	best_stroke(t_stack *a, t_stack *b, t_moves *moves);
+int		best_stroke(t_stack **a, t_stack **b, t_moves *moves);
 
 #endif

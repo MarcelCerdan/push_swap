@@ -30,7 +30,7 @@ static t_moves	*calc_inst(t_strokes st)
 
 	moves = malloc(sizeof(t_moves));
 	if (!moves)
-		error(NULL);
+		return (moves);
 	check_rr_rrr(st, moves);
 	check_rot_rev_rot(st, moves);
 	return (moves);
@@ -53,7 +53,7 @@ static t_moves	*inst_nb(t_strokes *limit, t_stack *a, t_stack *b, int lim)
 	return (calc_inst(*limit));
 }
 
-static void	find_best(t_stack *a, t_stack *b, t_moves *moves, t_elem *elem)
+static int	find_best(t_stack **a, t_stack **b, t_moves *moves, t_elem *elem)
 {
 	t_strokes	*inf;
 	t_strokes	*sup;
@@ -63,14 +63,14 @@ static void	find_best(t_stack *a, t_stack *b, t_moves *moves, t_elem *elem)
 	inf = malloc(sizeof(t_strokes));
 	sup = malloc(sizeof(t_strokes));
 	if (!inf || !sup)
-		error(NULL);
+		return (free(inf), free(sup), -1);
 	inf_moves = NULL;
 	sup_moves = NULL;
-	init_limits(inf, sup, a, elem);
+	init_limits(inf, sup, *a, elem);
 	if (inf->index > -1)
-		inf_moves = inst_nb(inf, a, b, INF);
+		inf_moves = inst_nb(inf, *a, *b, INF);
 	if (sup->index > -1)
-		sup_moves = inst_nb(sup, a, b, SUP);
+		sup_moves = inst_nb(sup, *a, *b, SUP);
 	if (inf->index < 0)
 		equal(moves, sup_moves, inf_moves);
 	else if (sup->index < 0 || inf_moves->total <= sup_moves->total)
@@ -79,32 +79,36 @@ static void	find_best(t_stack *a, t_stack *b, t_moves *moves, t_elem *elem)
 		equal(moves, sup_moves, inf_moves);
 	free(inf);
 	free(sup);
+	return (0);
 }
 
-void	best_stroke(t_stack *a, t_stack *b, t_moves *moves)
+int	best_stroke(t_stack **a, t_stack **b, t_moves *moves)
 {
 	t_moves	*current;
 	t_stack	*tmp;
 	t_elem	*elem;
 
-	tmp = b;
+	tmp = *b;
 	elem = malloc(sizeof(t_elem));
-	check_malloc(elem, NULL);
+	if (!elem)
+		return (-1);
 	elem->index = 0;
 	elem->nb = tmp->nb;
 	find_best(a, b, moves, elem);
 	while (tmp->next)
 	{
 		current = malloc(sizeof(t_moves));
-		check_malloc(current, elem);
+		if (!current)
+			return (free(elem), -1);
 		tmp = tmp->next;
 		elem->index++;
 		elem->nb = tmp->nb;
-		find_best(a, b, current, elem);
+		if (find_best(a, b, current, elem) < 0)
+			return (free(elem), free(current), -1);
 		if (current->total < moves->total)
 			equal(moves, current, NULL);
 		else
 			free(current);
 	}
-	free(elem);
+	return (free(elem), 0);
 }

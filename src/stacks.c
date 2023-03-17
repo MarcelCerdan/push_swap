@@ -18,28 +18,28 @@ t_stack	**init_stacks(t_stack **a, t_stack **b)
 	t_bounds	*bounds;
 
 	bounds = malloc(sizeof(t_bounds));
-	if (!bounds)
-		return (NULL);
+	check_malloc(bounds, a, b, "init_stack");
 	find_third(*a, bounds);
 	while ((*a)->next && check_stack(*a, bounds) == 0)
 	{
 		if ((*a)->nb <= bounds->min + bounds->third)
 		{
 			b = push(a, b, "pb");
+			check_malloc(b, a, b, "init_stack");
 			if ((*b)->next && (*a)->nb > bounds->min + 2 * bounds->third)
 				chose_inst(a, b, RR);
 			else if ((*b)->next)
 				chose_inst(a, b, RB);
 		}
 		else if ((*a)->nb <= bounds->min + 2 * bounds->third)
+		{
 			b = push(a, b, "pb");
+			check_malloc(b, a, b, "init_stack");
+		}
 		else
 			chose_inst(a, b, RA);
-		if (!b)
-			return (NULL);
 	}
-	free(bounds);
-	return (b);
+	return (free(bounds), b);
 }
 
 void	del_elem(t_stack **stack)

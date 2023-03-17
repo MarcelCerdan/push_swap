@@ -15,11 +15,12 @@
 
 void	clear_stack(t_stack **a)
 {
-	if (!a)
-		return ;
-	while (*a)
-		del_elem(a);
-	free(a);
+	if (a)
+	{
+		while (*a)
+			del_elem(a);
+		free(a);
+	}
 }
 
 static void	skip(t_stack **tmp, int min, int *min_index)

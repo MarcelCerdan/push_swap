@@ -53,7 +53,7 @@ t_stack	**push(t_stack **a, t_stack **b, char *str)
 		return (b);
 	new_b = create_elem((*a)->nb, b);
 	if (!new_b)
-		return (NULL);
+		return (clear_stack(b), NULL);
 	del_elem(a);
 	ft_printf(str);
 	ft_printf("\n");

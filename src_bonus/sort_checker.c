@@ -62,11 +62,7 @@ void	do_rr_rrr(t_stack **a, t_stack **b, char *line, int len)
 		}
 	}
 	else
-	{
-		if (b)
-			clear_stack(b);
-		return (clear_stack(a), error(line));
-	}
+		return (clear_stack(a), clear_stack(b), error(line));
 }
 
 int	is_sort(t_stack *stack)

@@ -86,8 +86,6 @@ int	sort(t_stack **a, int ac)
 	b = NULL;
 	if (ac > 6)
 		b = init_stacks(a, b);
-	if (!b && ac > 6)
-		error_malloc(a, b, "sort");
 	moves = malloc(sizeof(t_moves));
 	if (!moves)
 		error_malloc(a, b, "sort");
@@ -102,7 +100,5 @@ int	sort(t_stack **a, int ac)
 			return (free(moves), error_malloc(a, b, "best_stroke"), -1);
 		move(a, b, moves);
 	}
-	free(moves);
-	clear_stack(b);
-	return (0);
+	return (free(moves), clear_stack(b), 0);
 }

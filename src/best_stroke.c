@@ -21,7 +21,8 @@ static void	equal(t_moves *a, t_moves *b, t_moves *clear)
 	a->rrb = b->rrb;
 	a->total = b->total;
 	free(b);
-	free(clear);
+	if (clear != NULL)
+		free(clear);
 }
 
 static t_moves	*calc_inst(t_strokes st)
@@ -71,15 +72,15 @@ static int	find_best(t_stack **a, t_stack **b, t_moves *moves, t_elem *elem)
 		inf_moves = inst_nb(inf, *a, *b, INF);
 	if (sup->index > -1)
 		sup_moves = inst_nb(sup, *a, *b, SUP);
+	if (!inf_moves && !sup_moves)
+		return (free(inf), free(sup), free(sup_moves), free(inf_moves), -1);
 	if (inf->index < 0)
 		equal(moves, sup_moves, inf_moves);
 	else if (sup->index < 0 || inf_moves->total <= sup_moves->total)
 		equal(moves, inf_moves, sup_moves);
 	else
 		equal(moves, sup_moves, inf_moves);
-	free(inf);
-	free(sup);
-	return (0);
+	return (free(inf), free(sup), 0);
 }
 
 int	best_stroke(t_stack **a, t_stack **b, t_moves *moves)
@@ -100,9 +101,7 @@ int	best_stroke(t_stack **a, t_stack **b, t_moves *moves)
 		current = malloc(sizeof(t_moves));
 		if (!current)
 			return (free(elem), -1);
-		tmp = tmp->next;
-		elem->index++;
-		elem->nb = tmp->nb;
+		best_stroke_add(&tmp, &elem);
 		if (find_best(a, b, current, elem) < 0)
 			return (free(elem), free(current), -1);
 		if (current->total < moves->total)

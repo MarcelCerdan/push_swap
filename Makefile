@@ -26,10 +26,11 @@ LIBFT		=	${DIR_LIBFT}libft.a
 
 HEAD_LST	=	push_swap.h libft.h get_next_line.h
 
-SRCS_LST 	= 	push_swap.c		errors.c 		\
-				stacks.c		instructions.c	\
-				sort.c			find_limits.c	\
-				moves.c			best_stroke.c	\
+SRCS_LST 	= 	push_swap.c			errors.c 		\
+				stacks.c			instructions.c	\
+				sort.c				find_limits.c	\
+				moves.c				best_stroke.c	\
+				best_stroke_add.c
 
 BONUS_LST	=	checker.c				get_next_line.c	\
 				get_next_line_utils.c	sort_checker.c	\

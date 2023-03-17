@@ -22,6 +22,31 @@ void	put_zero(t_moves *m)
 	m->ra = 0;
 }
 
+static int	rev_rot(t_stack **a, t_stack **b, t_moves *moves)
+{
+	if (moves->rra > 0 && moves->rrb > 0)
+	{
+		while (--moves->rra >= 0 && --moves->rrb >= 0)
+		{
+			if (chose_inst(a, b, RRR) < 0)
+				return (free(moves), -1);
+		}
+		if (moves->rra >= 0)
+			++moves->rra;
+	}
+	while (--moves->rra >= 0)
+	{
+		if (chose_inst(a, b, RRA) < 0)
+			return (free(moves), -1);
+	}
+	while (--moves->rrb >= 0)
+	{
+		if (chose_inst(a, b, RRB) < 0)
+			return (free(moves), -1);
+	}
+	return (0);
+}
+
 void	move(t_stack **a, t_stack **b, t_moves *moves)
 {
 	if (moves->ra > 0 && moves->rb > 0)
@@ -35,17 +60,8 @@ void	move(t_stack **a, t_stack **b, t_moves *moves)
 		chose_inst(a, b, RA);
 	while (--moves->rb >= 0)
 		chose_inst(a, b, RB);
-	if (moves->rra > 0 && moves->rrb > 0)
-	{
-		while (--moves->rra >= 0 && --moves->rrb >= 0)
-			chose_inst(a, b, RRR);
-		if (moves->rra >= 0)
-			++moves->rra;
-	}
-	while (--moves->rra >= 0)
-		chose_inst(a, b, RRA);
-	while (--moves->rrb >= 0)
-		chose_inst(a, b, RRB);
+	if (rev_rot(a, b, moves) < 0)
+		error_malloc(a, b, "move");
 	push(b, a, "pa");
 }
 

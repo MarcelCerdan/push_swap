@@ -52,7 +52,10 @@ void	final_rot(t_stack **a)
 	if (i < min_index)
 	{
 		while (--i >= 0)
-			chose_inst(a, NULL, RRA);
+		{
+			if (chose_inst(a, NULL, RRA) < 0)
+				error_malloc(a, NULL, "final_rot");
+		}
 	}
 	else
 	{

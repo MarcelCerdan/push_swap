@@ -97,5 +97,6 @@ t_stack	**create_elem(int nmb, t_stack **stack);
 t_stack	**push_front(t_stack **stack, t_stack *elem);
 t_stack	**init_stacks(t_stack **a, t_stack **b);
 int		best_stroke(t_stack **a, t_stack **b, t_moves *moves);
+void	best_stroke_add (t_stack **tmp, t_elem **elem);
 
 #endif

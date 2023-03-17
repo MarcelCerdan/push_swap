@@ -62,14 +62,16 @@ static void	check_instructions(t_stack **a)
 	t_stack	**b;
 
 	b = NULL;
-	line = get_next_line(0);
+	line = get_next_line(0, a, b);
 	while (line)
 	{
 		result = b_instructions(b, line);
 		if (result == 1)
 			b = do_instruction(a, b, line);
 		free(line);
-		line = get_next_line(0);
+		line = get_next_line(0, a, b);
+		if (result < 0)
+			error_malloc(a, b, "check_instructions");
 	}
 	free(line);
 	if (is_sort(*a) && (!b || !(*b)))
@@ -89,13 +91,16 @@ int	main(int ac, char **av)
 	if (ac == 1)
 		return (0);
 	args = malloc(sizeof (int) * (ac - 1));
-	if (!args)
-		error(NULL);
+	check_malloc(args, NULL, NULL, "main");
 	check_args (ac, av, args);
 	a = NULL;
 	i = -1;
 	while (++i < ac - 1)
-		a = create_elem (args[i], a);
+	{
+		a = create_elem(args[i], a);
+		if (!a)
+			error(args);
+	}
 	free(args);
 	check_instructions(a);
 	clear_stack(a);

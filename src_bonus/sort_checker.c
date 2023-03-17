@@ -26,7 +26,8 @@ int	b_instructions(t_stack **b, char *line)
 	else if (ft_strncmp(line, "rrb", 3) == 0 && len == 3)
 	{
 		if (b)
-			rev_rotate(*b);
+			if (rev_rotate(*b) < 0)
+				return (-1);
 		return (0);
 	}
 	else if (ft_strncmp(line, "sb", 2) == 0 && len == 2)
@@ -50,16 +51,21 @@ void	do_rr_rrr(t_stack **a, t_stack **b, char *line, int len)
 	else if (ft_strncmp(line, "rrr", 3) == 0 && len == 3)
 	{
 		if (a)
-			rev_rotate(*a);
+		{
+			if (rev_rotate(*a) < 0)
+				return (free(line), error_malloc(a, b, "do_rr_rrr"));
+		}
 		if (b)
-			rev_rotate(*b);
+		{
+			if (rev_rotate(*b) < 0)
+				return (free(line), error_malloc(a, b, "do_rr_rrr"));
+		}
 	}
 	else
 	{
 		if (b)
 			clear_stack(b);
-		clear_stack(a);
-		error(line);
+		return (clear_stack(a), error(line));
 	}
 }
 
@@ -91,17 +97,17 @@ void	rotate(t_stack *stack)
 	stack->nb = first;
 }
 
-void	rev_rotate(t_stack *stack)
+int	rev_rotate(t_stack *stack)
 {
 	t_stack	*tmp;
 	int		*nb;
 	int		i;
 
 	if (stack_size(stack) <= 1)
-		return ;
+		return (0);
 	nb = malloc(sizeof(int) * stack_size(stack));
 	if (!nb)
-		error(NULL);
+		return (-1);
 	i = -1;
 	tmp = stack;
 	while (tmp)
@@ -117,5 +123,5 @@ void	rev_rotate(t_stack *stack)
 		stack->nb = nb[++i];
 		stack = stack->next;
 	}
-	free(nb);
+	return (free(nb), 0);
 }

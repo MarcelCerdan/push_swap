@@ -58,7 +58,7 @@ char	*ft_strjoin_gnl(char *s1, char const *s2, int s2_size)
 	len = ft_strlen_gnl(s1) + s2_size;
 	joined_str = malloc((len + 1) * sizeof(char));
 	if (joined_str == NULL)
-		error(NULL);
+		return (NULL);
 	i = 0;
 	while (s1 && s1[i])
 	{
@@ -84,8 +84,9 @@ int	ft_find_new_line(char *buf)
 	return (-1);
 }
 
-char	*ft_flush_buf(char *buf, char *line, int new_line)
-{
+char	*ft_flush_buf(char *buf, char *line, int new_line,
+		t_both_stacks *stacks)
+		{
 	char	*joined_line;
 
 	if (*buf == 0)
@@ -94,6 +95,11 @@ char	*ft_flush_buf(char *buf, char *line, int new_line)
 		joined_line = ft_strjoin_gnl(line, buf, BUFFER_SIZE);
 	else
 		joined_line = ft_strjoin_gnl(line, buf, new_line + 1);
+	if (!joined_line)
+	{
+		free(line);
+		error_malloc(stacks->a, stacks->b, "gnl");
+	}
 	free(line);
 	ft_bufmove(buf, new_line, BUFFER_SIZE);
 	return (joined_line);

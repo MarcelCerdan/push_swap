@@ -85,7 +85,7 @@ t_stack	**create_elem(int nb, t_stack **stack)
 {
 	t_stack	*elem;
 
-	elem = malloc (sizeof (t_stack));
+	elem = malloc(sizeof (t_stack));
 	if (!elem)
 		return (clear_stack(stack), NULL);
 	elem->nb = nb;

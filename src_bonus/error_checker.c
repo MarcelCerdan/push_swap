@@ -12,10 +12,21 @@
 #include "push_swap.h"
 #include "libft.h"
 
-void	check_malloc(void *ptr, void *free)
+void	check_malloc(void *ptr, t_stack **a, t_stack **b, char *str)
 {
 	if (!ptr)
-		error(free);
+		error_malloc(a, b, str);
+}
+
+void	error_malloc(t_stack **a, t_stack **b, char *str)
+{
+	if (a != NULL)
+		clear_stack(a);
+	if (b != NULL)
+		clear_stack(b);
+	write(2, str, ft_strlen(str));
+	write(2, " : malloc error\n", 16);
+	exit(1);
 }
 
 void	error(void *elem)
@@ -53,7 +64,8 @@ void	*check_args(int ac, char **av, int *args)
 	{
 		args[ac - 1 - i] = ft_atoi(av[i]);
 		str = ft_itoa(args[ac - 1 - i]);
-		check_malloc(str, NULL);
+		if (!str)
+			error(args);
 		if ((ft_strncmp(str, av[i], ft_strlen(av[i])) != 0
 				&& av[i][0] != '+')
 				|| (ft_strncmp(str, av[i] + 1, ft_strlen(av[i]) - 1) != 0

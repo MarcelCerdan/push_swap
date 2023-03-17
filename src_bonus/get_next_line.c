@@ -26,13 +26,16 @@ void	ft_bufmove(char *buf, int new_line, int size)
 		buf[i++] = 0;
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, t_stack **a, t_stack **b)
 {
-	static char	buf[BUFFER_SIZE];
-	int			ret_read;
-	char		*full_line;
-	int			new_line;
+	static char		buf[BUFFER_SIZE];
+	int				ret_read;
+	char			*full_line;
+	int				new_line;
+	t_both_stacks	stacks;
 
+	stacks.a = a;
+	stacks.b = b;
 	if (BUFFER_SIZE < 0)
 		return (NULL);
 	ret_read = 1;
@@ -41,11 +44,11 @@ char	*get_next_line(int fd)
 	while (ret_read > 0 && new_line == -1)
 	{
 		if (*buf != 0)
-			full_line = ft_flush_buf(buf, full_line, new_line);
+			full_line = ft_flush_buf(buf, full_line, new_line, &stacks);
 		ret_read = read(fd, buf, BUFFER_SIZE);
 		if (ret_read == -1)
 			return (NULL);
 		new_line = ft_find_new_line(buf);
 	}
-	return (ft_flush_buf(buf, full_line, new_line));
+	return (ft_flush_buf(buf, full_line, new_line, &stacks));
 }

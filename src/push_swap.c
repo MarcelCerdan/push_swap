@@ -15,6 +15,8 @@
 
 void	clear_stack(t_stack **a)
 {
+	if (!a)
+		return ;
 	while (*a)
 		del_elem(a);
 	free(a);
@@ -78,16 +80,17 @@ int	main(int ac, char **av)
 	a_stack = NULL;
 	i = -1;
 	while (++i < ac - 1)
+	{
 		a_stack = create_elem(args[i], a_stack);
+		if (!a_stack)
+			error(args);
+	}
 	free(args);
-	if (!a_stack)
-		error(NULL);
 	if (is_sort(*a_stack))
 		return (clear_stack(a_stack), 0);
 	if (ac <= 4)
 		return (small_sort(a_stack), clear_stack(a_stack), 0);
 	sort(a_stack, ac);
 	final_rot(a_stack);
-	clear_stack(a_stack);
-	return (0);
+	return (clear_stack(a_stack), 0);
 }

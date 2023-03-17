@@ -65,6 +65,12 @@ typedef struct s_stack
 	struct s_stack	*next;
 }	t_stack;
 
+typedef struct s_both_stacks
+{
+	t_stack	**a;
+	t_stack	**b;
+}	t_both_stacks;
+
 int		b_instructions(t_stack **b, char *line);
 int		find_inf(t_stack *stack, int nb);
 int		find_sup(t_stack *stack, int nb);
@@ -97,6 +103,6 @@ t_stack	**create_elem(int nmb, t_stack **stack);
 t_stack	**push_front(t_stack **stack, t_stack *elem);
 t_stack	**init_stacks(t_stack **a, t_stack **b);
 int		best_stroke(t_stack **a, t_stack **b, t_moves *moves);
-void	best_stroke_add (t_stack **tmp, t_elem **elem);
+void	best_stroke_add(t_stack **tmp, t_elem **elem);
 
 #endif

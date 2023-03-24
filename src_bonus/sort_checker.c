@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   sort_checker.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthibaul <mthibaul@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mthibaul <mthibaul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:43:00 by mthibaul          #+#    #+#             */
-/*   Updated: 2023/02/10 22:43:00 by mthibaul         ###   ########lyon.fr   */
+/*   Updated: 2023/03/24 13:19:31 by mthibaul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "push_swap.h"
+
 #include "libft.h"
+#include "push_swap.h"
 
 int	b_instructions(t_stack **b, char *line)
 {

@@ -3,19 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   stack_checker.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthibaul <mthibaul@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mthibaul <mthibaul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:48:00 by mthibaul          #+#    #+#             */
-/*   Updated: 2023/02/10 22:48:00 by mthibaul         ###   ########lyon.fr   */
+/*   Updated: 2023/03/24 13:19:13 by mthibaul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	clear_stack(t_stack **a)
 {
-	while (*a)
-		del_elem(a);
-	free(a);
+	if (a)
+	{
+		while (*a)
+			del_elem(a);
+		free(a);
+	}
 }
 
 void	del_elem(t_stack **stack)
